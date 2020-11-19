@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterModule, Routes } from '@angular/router';
 
 import { AngularFireModule } from 'angularfire2'
 import { AngularFirestoreModule } from 'angularfire2/firestore'
@@ -14,6 +15,11 @@ import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
 import { PostsModule } from './posts/posts.module';
 
+const routes: Routes = [
+  { path: '', redirectTo: '/blog', pathMatch: 'full' },
+  { path: '', loadChildren: './posts/posts.module#PostsModule' }
+]
+
 @NgModule({
   declarations: [
     AppComponent
@@ -21,6 +27,7 @@ import { PostsModule } from './posts/posts.module';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    RouterModule.forRoot(routes),
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     AngularFireStorageModule,
