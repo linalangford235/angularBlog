@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from 'src/app/core/auth.service';
+import { PostService } from '../post.service';
 
 @Component({
   selector: 'app-post-dashboard',
@@ -7,9 +9,31 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PostDashboardComponent implements OnInit {
 
-  constructor() { }
+  title: string;
+  image: string = null
+  content: string
 
-  ngOnInit(): void {
+  buttonText: string = "Create Post"
+
+  constructor(private auth: AuthService, private postService: PostService) { }
+
+  ngOnInit() {
+  }
+
+  createPost() {
+    const data = {
+      author: this.auth.authState.displayName || this.auth.authState.email,
+      authorId: this.auth.currentUserId,
+      content: this.content,
+      image: this.image,
+      published: new Date(),
+      title: this.title
+    };
+    this.postService.create(data);
+    this.title = ''
+    this.content = ''
+    this.buttonText = 'Post Created!'
+    setTimeout(() => this.buttonText = "Create Post", 3000)
   }
 
 }
